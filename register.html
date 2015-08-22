@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>MMC进销存用户注册</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/Font-Awesome/css/font-awesome.min.css">
+		<script src="js/serialize-0.2.js"></script>
+		<script src="js/jquery-1.11.0.min.js"></script>
+		<style>
+			.mui-input-row label {
+				color: #999999;
+				padding-right: 0px;
+				padding-left: 20px;
+				width: 15%;
+			}
+			.normal-img {
+				width: 10%;
+				height: 10%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header id="header" class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">MMC进销存用户注册</h1>
+		</header>
+
+		<div class="mui-content">
+			<div style="background: #FFFFFF;">
+				<div style="text-align: center;margin-bottom: 12px;padding-top: 20px; padding-bottom: 15px; background: #009ac5;">
+					<img src="img/logo.png" class="normal-img" />
+				</div>
+
+				<div class="mui-card">
+					<div class="mui-input-group">
+						<form id="myForm" action="" method="get" class="form">
+							<div class="mui-input-row">
+								<label><i class="fa fa-user"></i>
+								</label>
+								<input type="email" name="account" id="user-account" class="mui-input-clear" style="width: 85%;color: #00AA00;" placeholder="请输入账号">
+							</div>
+							<div class="mui-input-row">
+								<label><i class="fa fa-lock"></i>
+								</label>
+								<input type="password" id="user-password" name="password" class="mui-input-clear" style="width: 85%;" placeholder="请输入密码">
+							</div>
+							<div class="mui-input-row">
+								<label><i class="fa fa-lock"></i>
+								</label>
+								<input type="password" name="confirm-password" id="confirm-password" class="mui-input-clear" style="width: 85%;" placeholder="请输入确认密码">
+							</div>
+							<div class="mui-input-row">
+								<label><i class="fa fa-asterisk"></i>
+								</label>
+								<input type="text" id="company-name" name="company_name" class="mui-input-clear" style="width: 85%;" placeholder="请输入您的公司名称">
+							</div>
+							<div class="mui-input-row">
+								<label><i class="fa fa-user"></i> </label>
+								<input type="text" id="user-name" name="name" class="mui-input-clear" style="width: 85%;" placeholder="请输入联系人姓名">
+							</div>
+							<div class="mui-input-row">
+								<label><i class="fa fa-phone"></i> </label>
+								<input type="tel" id="user-phone" name="phone" class="mui-input-clear" style="width: 85%;" placeholder="请输入您的联系电话">
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<div style="width: 100%;margin-top:5px;">
+					<div class="mui-input-row mui-checkbox mui-left">
+						<label for="is-agree" style="width: 80%;">我已阅读并接受<span id="register-agreement" style="color: #0062CC;margin-left: 2px;">注册协议</span>
+						</label>
+						<input type="checkbox" id="is-agree" checked="checked">
+					</div>
+					<div style="margin-left: 15px;margin-right: 15px; margin-top: 5px;">
+						<button id="register-button" type="button" class="mui-btn mui-btn-red" style="width: 100%; height: 40px;">注册</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<script>
+			function showAlert(msg) {
+				alert(msg);
+			}
+			document.getElementById("register-agreement").addEventListener("click", function() {
+				var isAggreeObj = document.getElementById("is-agree");
+				if (isAggreeObj.checked) {
+					isAggreeObj.checked = false;
+				} else {
+					isAggreeObj.checked = true;
+				}
+				window.open("user_agreement.html");
+			});
+			document.getElementById("register-button").addEventListener("click", function() {
+				if (!document.getElementById("is-agree").checked) {
+					showAlert("注册协议还是要同意的");
+					return;
+				}
+				if (document.getElementById("user-password").value != document.getElementById("confirm-password").value) {
+					showAlert("两次输入密码不一致");
+					return;
+				}
+				if (document.getElementById("user-password").value == "") {
+					showAlert("账号密码不能为空");
+					return;
+				}
+				if (document.getElementById("user-account").value == "") {
+					showAlert("账号不能为空");
+					return;
+				}
+				if (document.getElementById("user-name").value == "") {
+					showAlert("联系人姓名不能为空");
+					return;
+				}
+				if (document.getElementById("user-phone").value == "") {
+					showAlert("联系人电话不能为空");
+					return;
+				}
+				if (document.getElementById("company-name").value == "") {
+					showAlert("公司名称不能为空");
+					return;
+				}
+				var registerUrl = "http://121.41.85.180/user/register" + "?" + serialize(document.forms[0]) + "&udid=udid&platform=web&jsoncallback=?";
+				$.getJSON(registerUrl, function(result) {
+					if (result.status == "200") {
+						showAlert("注册成功，请在客户端去登录吧");
+					} else {
+						showAlert(result.error_message);
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>
