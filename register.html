@@ -85,9 +85,29 @@
 		</div>
 
 		<script>
+			function checkEmail(str) {
+				var Expression = /\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+				var objExp = new RegExp(Expression);
+				if (objExp.test(str) == true) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			function checkMobile(str) {
+				var re = /^1\d{10}$/;
+				if (re.test(str)) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
 			function showAlert(msg) {
 				alert(msg);
 			}
+
 			document.getElementById("register-agreement").addEventListener("click", function() {
 				var isAggreeObj = document.getElementById("is-agree");
 				if (isAggreeObj.checked) {
@@ -98,6 +118,11 @@
 				window.open("user_agreement.html");
 			});
 			document.getElementById("register-button").addEventListener("click", function() {
+				var userAccount = document.getElementById("user-account").value;
+				if( !checkMobile(userAccount) && !checkEmail(userAccount)){
+					showAlert("账号请输入手机号或者email");
+					return;	
+				}
 				if (!document.getElementById("is-agree").checked) {
 					showAlert("注册协议还是要同意的");
 					return;
