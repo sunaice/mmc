@@ -1,1 +1,0 @@
-{"step":4,"name":"MISTAKEN","pic":"15"}
